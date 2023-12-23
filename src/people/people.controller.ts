@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { PeopleService } from './people.service';
 import { CreatePersonDto } from './dto/create-person.dto';
@@ -16,6 +18,7 @@ export class PeopleController {
   constructor(private readonly peopleService: PeopleService) {}
 
   @Post()
+  @HttpCode(HttpStatus.OK)
   create(@Body() createPersonDto: CreatePersonDto) {
     return this.peopleService.create(createPersonDto);
   }

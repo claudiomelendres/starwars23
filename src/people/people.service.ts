@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
 import { Person } from './entities/person.entity';
@@ -14,8 +18,21 @@ export class PeopleService {
 
   async create(createPersonDto: CreatePersonDto) {
     createPersonDto.name = createPersonDto.name.toLocaleLowerCase();
-    const person = await this.personModel.create(createPersonDto);
-    return person;
+
+    try {
+      const person = await this.personModel.create(createPersonDto);
+      return person;
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new BadRequestException(
+          `Person already exists ${JSON.stringify(error.keyValue)}`,
+        );
+      }
+      console.log(error);
+      throw new InternalServerErrorException(
+        `person was not created review server logs`,
+      );
+    }
   }
 
   findAll() {
