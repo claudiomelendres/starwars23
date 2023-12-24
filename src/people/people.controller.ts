@@ -29,13 +29,13 @@ export class PeopleController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.peopleService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return this.peopleService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePersonDto: UpdatePersonDto) {
-    return this.peopleService.update(+id, updatePersonDto);
+    return this.peopleService.update(id, updatePersonDto);
   }
 
   @Delete(':id')
