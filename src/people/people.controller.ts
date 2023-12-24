@@ -12,6 +12,7 @@ import {
 import { PeopleService } from './people.service';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
+import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
 
 @Controller('people')
 export class PeopleController {
@@ -39,7 +40,7 @@ export class PeopleController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.peopleService.remove(+id);
+  remove(@Param('id', ParseMongoIdPipe) id: string) {
+    return this.peopleService.remove(id);
   }
 }

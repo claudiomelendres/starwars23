@@ -68,8 +68,18 @@ export class PeopleService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} person`;
+  async remove(id: string) {
+    // const person = await this.findOne(id);
+    // await person.deleteOne();
+    // return { id };
+
+    // const result = await this.personModel.findByIdAndDelete(id);
+    // return result;
+
+    const { deletedCount } = await this.personModel.deleteOne({ _id: id });
+    if (deletedCount === 0)
+      throw new NotFoundException(`Person with id ${id} not found`);
+    return { id };
   }
 
   // para manejar el error de duplicidad de datos
