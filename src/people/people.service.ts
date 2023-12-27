@@ -9,6 +9,7 @@ import { UpdatePersonDto } from './dto/update-person.dto';
 import { Person } from './entities/person.entity';
 import { Model, isValidObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class PeopleService {
@@ -28,8 +29,14 @@ export class PeopleService {
     }
   }
 
-  findAll() {
-    return `This action returns all people`;
+  findAll(paginationQuery: PaginationDto) {
+    const { limit = 10, offset = 0 } = paginationQuery;
+    return this.personModel
+      .find()
+      .limit(limit)
+      .skip(offset)
+      .sort({ no: 1 })
+      .select('-__v');
   }
 
   async findOne(id: string) {
