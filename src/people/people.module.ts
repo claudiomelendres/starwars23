@@ -10,5 +10,6 @@ import { Person, PersonSchema } from './entities/person.entity';
   imports: [
     MongooseModule.forFeature([{ name: Person.name, schema: PersonSchema }]),
   ],
+  exports: [MongooseModule],
 })
 export class PeopleModule {}
