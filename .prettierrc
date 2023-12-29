@@ -1,8 +1,8 @@
 {
-  "semi": true,
-  "trailingComma": "all",
-  "singleQuote": false,
-  "printWidth": 180,
-  "tabWidth": 2,
-  "arrowParens": "avoid"
+  "semi": true, // No añadir punto y coma al final de las declaraciones
+  "singleQuote": true, // Usar comillas simples en lugar de dobles
+  "tabWidth": 2, // Establecer el ancho de la tabulación en 2 espacios
+  "trailingComma": "all", // Añadir coma final en matrices y objetos
+  "bracketSpacing": true, // Agregar espacios alrededor de las llaves en objetos
+  "arrowParens": "always" // Añadir paréntesis alrededor de los parámetros de las funciones de flecha
 }
