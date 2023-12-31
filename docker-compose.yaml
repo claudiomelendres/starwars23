@@ -4,6 +4,7 @@ version: '3'
 services:
   db:
     image: mongo:5
+    container_name: mongo-starwars
     restart: always
     ports:
       - 27017:27017

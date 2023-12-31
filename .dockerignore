@@ -1,0 +1,25 @@
+# Ignore node_modules folder
+node_modules/
+
+# Ignore build output
+dist/
+
+.gitignore
+.git/
+
+
+# Ignore development files
+.env
+.env.*
+.env.local
+.env.dev
+.env.test
+.env.prod
+
+# Ignore logs
+logs
+*.log
+
+# Ignore temporary files
+*.swp
+.DS_Store
