@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {
   BadRequestException,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -12,6 +13,7 @@ import { Model, isValidObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ConfigService } from '@nestjs/config';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class PeopleService {
@@ -38,14 +40,27 @@ export class PeopleService {
     }
   }
 
-  findAll(paginationQuery: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationQuery;
-    return this.personModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select('-__v');
+  async findAll(paginationQuery: PaginationDto) {
+    const { limit = this.defaultLimit, page } = paginationQuery;
+
+    const totalPages = await this.personModel.countDocuments();
+    const lastPage = Math.ceil(totalPages / limit);
+    console.log({ totalPages, lastPage, limit, page });
+    return {
+      data: await
+        this.personModel
+          .find()
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .sort({ no: 1 })
+          .select('-__v'),
+      meta: {
+        total: totalPages,
+        page,
+        lastPage,
+      },
+
+    }
   }
 
   async findOne(id: string) {
